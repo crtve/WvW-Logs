@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Get current GMT+8 Unix timestamp
         id: time
-        run: echo "timestamp=$(($(date +%s) + 8 * 3600))" >> $GITHUB_OUTPUT
+        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
       - name: Send message to Discord
         uses: appleboy/discord-action@v1.2.0
