@@ -7,22 +7,18 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete previous Discord message (if exists)
-        run: |
-          if [ -f last_message_id.txt ]; then
-            last_id=$(cat last_message_id.txt)
-            curl -X DELETE "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>/messages/$last_id"
-          fi
+      - name: Get current GMT+8 Unix timestamp
+        id: time
+        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
-      - name: Send new Discord message
-        id: send_discord
-        run: |
-          response=$(curl -H "Content-Type: application/json" -X POST -d '{"content":"New commit!","username":"Dan Bot"}' "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>?wait=true")
-          echo $response | jq -r '.id' > last_message_id.txt
-
-      - name: Upload last message ID for next run
-        uses: actions/upload-artifact@v4
+      - name: Send message to Discord
+        uses: appleboy/discord-action@v1.2.0
         with:
-          name: last_message_id
-          path: last_message_id.txt
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Dan Bot"
+          avatar_url: "https://i.imgur.com/GztTIZk.png"
+          message: |
+            Logs updated @ https://crtve.github.io/WvW-Logs/
+            Timestamp: <t:${{ steps.time.outputs.timestamp }}>
+
 
