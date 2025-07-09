@@ -13,4 +13,4 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           username: "Dan Bot"
           avatar_url: "https://i.imgur.com/GztTIZk.png"
-          message: "Logs updated @ https://crtve.github.io/WvW-Logs/"
+          message: "Logs updated @ https://crtve.github.io/WvW-Logs/\nPushed at: ${{ github.event.head_commit.timestamp }}"
