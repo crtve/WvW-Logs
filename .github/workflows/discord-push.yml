@@ -11,6 +11,6 @@ jobs:
         uses: appleboy/discord-action@v1.2.0
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          username: "Dan bot"
-          avatar_url: "https://imgur.com/a/UeKhHWu"
+          username: "Dan Bot"
+          avatar_url: "https://i.imgur.com/GztTIZk.png"
           message: "Logs updated @ https://crtve.github.io/WvW-Logs/"
