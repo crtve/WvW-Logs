@@ -7,28 +7,18 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      # 1. Download the previous message ID artifact (if it exists)
-      - name: Download last message ID
-        uses: actions/download-artifact@v4
-        with:
-          name: last_message_id
-        continue-on-error: true
-
-      # 2. Delete the previous Discord message (if ID exists)
-      - name: Delete previous Discord message
-        if: ${{ exists('last_message_id.txt') }}
-        run: |
-          last_id=$(cat last_message_id.txt)
-          curl -X DELETE "https://discord.com/api/webhooks/1392613771431772290/CF8wOTc4C5PrAXuptJA7faryW-EbHtqSOVokByqX3hXwvf_cixyswTV5-Frp9MavhzVY/github/messages/$last_id"
-
-      # 3. Get the current UNIX timestamp (UTC)
-      - name: Get current UNIX timestamp
+      - name: Get current GMT+8 Unix timestamp
         id: time
         run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
-      # 4. Send new Discord message and save the message ID
-      - name: Send new Discord message
-        id: send_discord
-        run: |
-          response=$(curl -H "Content-Type: application/json" -X POST \
-            -d "{\"content\":\"Logs updated @ https://crtve.github.io/WvW-Logs/\nTimestamp: <t:${{ steps.time.outputs.timestamp
+      - name: Send message to Discord
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Dan Bot"
+          avatar_url: "https://i.imgur.com/GztTIZk.png"
+          message: |
+            Logs updated @ https://crtve.github.io/WvW-Logs/
+            Timestamp: <t:${{ steps.time.outputs.timestamp }}>
+
+
