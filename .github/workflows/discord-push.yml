@@ -7,9 +7,9 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Get current GMT+8 time
+      - name: Get current GMT+8 Unix timestamp
         id: time
-        run: echo "timestamp=$(TZ='Asia/Singapore' date '+%Y-%m-%d %H:%M:%S GMT+8')" >> $GITHUB_OUTPUT
+        run: echo "timestamp=$(($(date +%s) + 8 * 3600))" >> $GITHUB_OUTPUT
 
       - name: Send message to Discord
         uses: appleboy/discord-action@v1.2.0
@@ -19,4 +19,5 @@ jobs:
           avatar_url: "https://i.imgur.com/GztTIZk.png"
           message: |
             Logs updated @ https://crtve.github.io/WvW-Logs/
-            Timestamp: ${{ steps.time.outputs.timestamp }}
+            Timestamp: <t:${{ steps.time.outputs.timestamp }}>
+
