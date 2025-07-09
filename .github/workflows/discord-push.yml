@@ -19,7 +19,7 @@ jobs:
         if: ${{ exists('last_message_id.txt') }}
         run: |
           last_id=$(cat last_message_id.txt)
-          curl -X DELETE "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>/messages/$last_id"
+          curl -X DELETE "https://discord.com/api/webhooks/1392613771431772290/CF8wOTc4C5PrAXuptJA7faryW-EbHtqSOVokByqX3hXwvf_cixyswTV5-Frp9MavhzVY/github/messages/$last_id"
 
       # 3. Get the current UNIX timestamp (UTC)
       - name: Get current UNIX timestamp
@@ -32,7 +32,7 @@ jobs:
         run: |
           response=$(curl -H "Content-Type: application/json" -X POST \
             -d "{\"content\":\"Logs updated @ https://crtve.github.io/WvW-Logs/\nTimestamp: <t:${{ steps.time.outputs.timestamp }}>\",\"username\":\"Dan Bot\",\"avatar_url\":\"https://i.imgur.com/GztTIZk.png\"}" \
-            "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>?wait=true")
+            "https://discord.com/api/webhooks/1392613771431772290/CF8wOTc4C5PrAXuptJA7faryW-EbHtqSOVokByqX3hXwvf_cixyswTV5-Frp9MavhzVY/github?wait=true")
           echo $response | jq -r '.id' > last_message_id.txt
 
       # 5. Upload the new message ID for the next run
