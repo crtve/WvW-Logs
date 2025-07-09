@@ -7,28 +7,22 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      # 1. Download the previous message ID artifact (if it exists)
-      - name: Download last message ID
-        uses: actions/download-artifact@v4
-        with:
-          name: last_message_id
-        continue-on-error: true
-
-      # 2. Delete the previous Discord message (if ID exists)
-      - name: Delete previous Discord message
-        if: ${{ exists('last_message_id.txt') }}
+      - name: Delete previous Discord message (if exists)
         run: |
-          last_id=$(cat last_message_id.txt)
-          curl -X DELETE "https://discord.com/api/webhooks/1392613771431772290/CF8wOTc4C5PrAXuptJA7faryW-EbHtqSOVokByqX3hXwvf_cixyswTV5-Frp9MavhzVY/github/messages/$last_id"
+          if [ -f last_message_id.txt ]; then
+            last_id=$(cat last_message_id.txt)
+            curl -X DELETE "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>/messages/$last_id"
+          fi
 
-      # 3. Get the current UNIX timestamp (UTC)
-      - name: Get current UNIX timestamp
-        id: time
-        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
-
-      # 4. Send new Discord message and save the message ID
       - name: Send new Discord message
         id: send_discord
         run: |
-          response=$(curl -H "Content-Type: application/json" -X POST \
-            -d "{\"content\":\"Logs updated @ https://crtve.github.io/WvW-Logs/\nTimestamp: <t:${{ steps.time.outputs.timestamp
+          response=$(curl -H "Content-Type: application/json" -X POST -d '{"content":"New commit!","username":"Dan Bot"}' "https://discord.com/api/webhooks/<webhook_id>/<webhook_token>?wait=true")
+          echo $response | jq -r '.id' > last_message_id.txt
+
+      - name: Upload last message ID for next run
+        uses: actions/upload-artifact@v4
+        with:
+          name: last_message_id
+          path: last_message_id.txt
+
