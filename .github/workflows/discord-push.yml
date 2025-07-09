@@ -26,18 +26,9 @@ jobs:
         id: time
         run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
-      # 4. Send new Discord message and save the message IDa
+      # 4. Send new Discord message and save the message ID
       - name: Send new Discord message
         id: send_discord
         run: |
           response=$(curl -H "Content-Type: application/json" -X POST \
-            -d "{\"content\":\"Logs updated @ https://crtve.github.io/WvW-Logs/\nTimestamp: <t:${{ steps.time.outputs.timestamp }}>\",\"username\":\"Dan Bot\",\"avatar_url\":\"https://i.imgur.com/GztTIZk.png\"}" \
-            "https://discord.com/api/webhooks/1392613771431772290/CF8wOTc4C5PrAXuptJA7faryW-EbHtqSOVokByqX3hXwvf_cixyswTV5-Frp9MavhzVY/github?wait=true")
-          echo $response | jq -r '.id' > last_message_id.txt
-
-      # 5. Upload the new message ID for the next run
-      - name: Upload last message ID
-        uses: actions/upload-artifact@v4
-        with:
-          name: last_message_id
-          path: last_message_id.txt
+            -d "{\"content\":\"Logs updated @ https://crtve.github.io/WvW-Logs/\nTimestamp: <t:${{ steps.time.outputs.timestamp
