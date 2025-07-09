@@ -7,9 +7,9 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Get current UTC time
+      - name: Get current GMT+8 time
         id: time
-        run: echo "timestamp=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+        run: echo "timestamp=$(TZ='Asia/Singapore' date '+%Y-%m-%d %H:%M:%S GMT+8')" >> $GITHUB_OUTPUT
 
       - name: Send message to Discord
         uses: appleboy/discord-action@v1.2.0
