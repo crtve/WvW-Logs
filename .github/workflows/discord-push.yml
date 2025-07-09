@@ -26,7 +26,7 @@ jobs:
         id: time
         run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
-      # 4. Send new Discord message and save the message ID
+      # 4. Send new Discord message and save the message IDa
       - name: Send new Discord message
         id: send_discord
         run: |
