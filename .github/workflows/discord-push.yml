@@ -18,7 +18,7 @@ jobs:
           username: "Dan Bot"
           avatar_url: "https://i.imgur.com/GztTIZk.png"
           message: |
-            Logs updated @ https://crtve.github.io/WvW-Logs/
+            Logs updated @ https://crtve.github.io/WvW-Logs/ (Please give it a minute or so for it to reflect)
             Timestamp: <t:${{ steps.time.outputs.timestamp }}>
 
 
